@@ -1,0 +1,49 @@
+databaseChangeLog:
+
+  - changeSet:
+      id: 014-create-reserve-decisions
+      author: zodiakk
+
+      changes:
+        - createTable:
+            tableName: reserve_decisions
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: candidate_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+              - column:
+                  name: decided_by_employee_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+              - column:
+                  name: decision
+                  type: VARCHAR(25)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: comment
+                  type: TEXT
+              - column:
+                  name: assessment_id
+                  type: UUID
+              - column:
+                  name: decided_at
+                  type: TIMESTAMP WITH TIME ZONE
+                  constraints:
+                    nullable: false
+
+        - addForeignKeyConstraint:
+            baseTableName: reserve_decisions
+            baseColumnNames: candidate_id
+            referencedTableName: reserve_candidates
+            referencedColumnNames: id
+            constraintName: fk_reserve_decision_candidate

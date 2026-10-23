@@ -1,0 +1,25 @@
+databaseChangeLog:
+
+  - changeSet:
+      id: 017-create-indexes
+      author: zodiakk
+
+      changes:
+        - sql:
+            dbms: postgresql
+            sql: |
+              CREATE UNIQUE INDEX uq_current_position_requirement ON position_requirements (position_id, grade_id) WHERE status = 'PUBLISHED';
+              CREATE UNIQUE INDEX uq_active_career_goal ON employee_career_goals (employee_id) WHERE status = 'ACTIVE';
+              CREATE UNIQUE INDEX uq_current_reserve_candidate ON reserve_candidates (reserve_id, employee_id) WHERE status IN ('NOMINATED', 'UNDER_REVIEW', 'APPROVED');
+              CREATE UNIQUE INDEX uq_current_career_track_revision ON career_track_revisions (track_id) WHERE status = 'PUBLISHED';
+              CREATE INDEX idx_development_plan_employee ON development_plans (employee_id, status);
+              CREATE INDEX idx_development_activity_plan_status ON development_activities (plan_id, status);
+              CREATE INDEX idx_reserve_candidate_employee ON reserve_candidates (employee_id);
+              CREATE INDEX idx_career_transition_source ON career_transitions (source_node_id);
+              CREATE INDEX idx_career_transition_target ON career_transitions (target_node_id);
+              CREATE INDEX idx_required_skill_requirement ON required_skills (requirement_id);
+              CREATE INDEX idx_career_goal_employee ON employee_career_goals (employee_id, status);
+              CREATE INDEX idx_plan_review_plan ON plan_reviews (plan_id, reviewed_at);
+              CREATE INDEX idx_activity_evidence_activity ON activity_evidence (activity_id);
+              CREATE INDEX idx_reserve_decision_candidate ON reserve_decisions (candidate_id, decided_at);
+              CREATE INDEX idx_talent_reserve_target ON talent_reserves (target_position_id, target_grade_id, status);

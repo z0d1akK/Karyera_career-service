@@ -1,0 +1,64 @@
+databaseChangeLog:
+
+  - changeSet:
+      id: 002-create-career-track-revisions
+      author: zodiakk
+
+      changes:
+        - createTable:
+            tableName: career_track_revisions
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: track_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+              - column:
+                  name: revision
+                  type: INTEGER
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status
+                  type: VARCHAR(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: snapshot
+                  type: JSONB
+                  constraints:
+                    nullable: false
+              - column:
+                  name: published_at
+                  type: TIMESTAMP WITH TIME ZONE
+              - column:
+                  name: published_by
+                  type: UUID
+              - column:
+                  name: created_at
+                  type: TIMESTAMP WITH TIME ZONE
+                  constraints:
+                    nullable: false
+
+        - addForeignKeyConstraint:
+            baseTableName: career_track_revisions
+            baseColumnNames: track_id
+            referencedTableName: career_tracks
+            referencedColumnNames: id
+            constraintName: fk_career_track_revision_track
+
+        - addUniqueConstraint:
+            tableName: career_track_revisions
+            columnNames: track_id, revision
+            constraintName: uq_career_track_revision
+
+        - sql:
+            dbms: postgresql
+            sql: |
+              ALTER TABLE career_track_revisions ADD CONSTRAINT chk_career_track_revision_number CHECK (revision > 0);

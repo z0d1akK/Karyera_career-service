@@ -1,0 +1,62 @@
+databaseChangeLog:
+
+  - changeSet:
+      id: 006-create-required-skills
+      author: zodiakk
+
+      changes:
+        - createTable:
+            tableName: required_skills
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: requirement_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+              - column:
+                  name: skill_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+              - column:
+                  name: required_level
+                  type: INTEGER
+                  constraints:
+                    nullable: false
+              - column:
+                  name: weight
+                  type: NUMERIC(8,5)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: mandatory
+                  type: BOOLEAN
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: TEXT
+
+        - addForeignKeyConstraint:
+            baseTableName: required_skills
+            baseColumnNames: requirement_id
+            referencedTableName: position_requirements
+            referencedColumnNames: id
+            constraintName: fk_required_skill_requirement
+
+        - addUniqueConstraint:
+            tableName: required_skills
+            columnNames: requirement_id, skill_id
+            constraintName: uq_required_skill
+
+        - sql:
+            dbms: postgresql
+            sql: |
+              ALTER TABLE required_skills ADD CONSTRAINT chk_required_skill_level CHECK (required_level > 0);
+              ALTER TABLE required_skills ADD CONSTRAINT chk_required_skill_weight CHECK (weight > 0);

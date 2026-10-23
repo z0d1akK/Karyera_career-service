@@ -1,0 +1,76 @@
+databaseChangeLog:
+
+  - changeSet:
+      id: 005-create-position-requirements
+      author: zodiakk
+
+      changes:
+        - createTable:
+            tableName: position_requirements
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: position_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+              - column:
+                  name: grade_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+              - column:
+                  name: revision
+                  type: INTEGER
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status
+                  type: VARCHAR(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: TEXT
+              - column:
+                  name: min_experience_months
+                  type: INTEGER
+                  constraints:
+                    nullable: false
+              - column:
+                  name: published_at
+                  type: TIMESTAMP WITH TIME ZONE
+              - column:
+                  name: published_by
+                  type: UUID
+              - column:
+                  name: version
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: TIMESTAMP WITH TIME ZONE
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_at
+                  type: TIMESTAMP WITH TIME ZONE
+                  constraints:
+                    nullable: false
+
+        - addUniqueConstraint:
+            tableName: position_requirements
+            columnNames: position_id, grade_id, revision
+            constraintName: uq_position_requirement_revision
+
+        - sql:
+            dbms: postgresql
+            sql: |
+              ALTER TABLE position_requirements ADD CONSTRAINT chk_position_requirement_revision CHECK (revision > 0);
+              ALTER TABLE position_requirements ADD CONSTRAINT chk_position_requirement_experience CHECK (min_experience_months >= 0);

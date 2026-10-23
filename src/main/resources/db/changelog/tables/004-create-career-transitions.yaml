@@ -1,0 +1,68 @@
+databaseChangeLog:
+
+  - changeSet:
+      id: 004-create-career-transitions
+      author: zodiakk
+
+      changes:
+        - createTable:
+            tableName: career_transitions
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: source_node_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+              - column:
+                  name: target_node_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+              - column:
+                  name: transition_type
+                  type: VARCHAR(30)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: TEXT
+              - column:
+                  name: estimated_months
+                  type: INTEGER
+              - column:
+                  name: active
+                  type: BOOLEAN
+                  defaultValueBoolean: true
+                  constraints:
+                    nullable: false
+
+        - addForeignKeyConstraint:
+            baseTableName: career_transitions
+            baseColumnNames: source_node_id
+            referencedTableName: career_track_nodes
+            referencedColumnNames: id
+            constraintName: fk_career_transition_source
+
+        - addForeignKeyConstraint:
+            baseTableName: career_transitions
+            baseColumnNames: target_node_id
+            referencedTableName: career_track_nodes
+            referencedColumnNames: id
+            constraintName: fk_career_transition_target
+
+        - addUniqueConstraint:
+            tableName: career_transitions
+            columnNames: source_node_id, target_node_id
+            constraintName: uq_career_transition
+
+        - sql:
+            dbms: postgresql
+            sql: |
+              ALTER TABLE career_transitions ADD CONSTRAINT chk_career_transition_not_self CHECK (source_node_id <> target_node_id);
+              ALTER TABLE career_transitions ADD CONSTRAINT chk_career_transition_months CHECK (estimated_months IS NULL OR estimated_months > 0);

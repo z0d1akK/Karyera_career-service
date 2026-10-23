@@ -1,0 +1,65 @@
+databaseChangeLog:
+
+  - changeSet:
+      id: 013-create-reserve-candidates
+      author: zodiakk
+
+      changes:
+        - createTable:
+            tableName: reserve_candidates
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: reserve_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+              - column:
+                  name: employee_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+              - column:
+                  name: assessment_id
+                  type: UUID
+              - column:
+                  name: status
+                  type: VARCHAR(25)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: nominated_by
+                  type: UUID
+                  constraints:
+                    nullable: false
+              - column:
+                  name: nominated_at
+                  type: TIMESTAMP WITH TIME ZONE
+                  constraints:
+                    nullable: false
+              - column:
+                  name: included_at
+                  type: TIMESTAMP WITH TIME ZONE
+              - column:
+                  name: removed_at
+                  type: TIMESTAMP WITH TIME ZONE
+              - column:
+                  name: comment
+                  type: TEXT
+              - column:
+                  name: version
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+
+        - addForeignKeyConstraint:
+            baseTableName: reserve_candidates
+            baseColumnNames: reserve_id
+            referencedTableName: talent_reserves
+            referencedColumnNames: id
+            constraintName: fk_reserve_candidate_reserve

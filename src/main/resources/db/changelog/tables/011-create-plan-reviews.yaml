@@ -1,0 +1,46 @@
+databaseChangeLog:
+
+  - changeSet:
+      id: 011-create-plan-reviews
+      author: zodiakk
+
+      changes:
+        - createTable:
+            tableName: plan_reviews
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: plan_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+              - column:
+                  name: reviewer_employee_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+              - column:
+                  name: decision
+                  type: VARCHAR(25)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: comment
+                  type: TEXT
+              - column:
+                  name: reviewed_at
+                  type: TIMESTAMP WITH TIME ZONE
+                  constraints:
+                    nullable: false
+
+        - addForeignKeyConstraint:
+            baseTableName: plan_reviews
+            baseColumnNames: plan_id
+            referencedTableName: development_plans
+            referencedColumnNames: id
+            constraintName: fk_plan_review_plan

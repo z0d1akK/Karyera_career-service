@@ -1,0 +1,65 @@
+databaseChangeLog:
+
+  - changeSet:
+      id: 003-create-career-track-nodes
+      author: zodiakk
+
+      changes:
+        - createTable:
+            tableName: career_track_nodes
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: track_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+              - column:
+                  name: position_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+              - column:
+                  name: grade_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+              - column:
+                  name: label
+                  type: VARCHAR(150)
+              - column:
+                  name: description
+                  type: TEXT
+              - column:
+                  name: display_order
+                  type: INTEGER
+                  constraints:
+                    nullable: false
+              - column:
+                  name: is_entry_point
+                  type: BOOLEAN
+                  defaultValueBoolean: false
+                  constraints:
+                    nullable: false
+
+        - addForeignKeyConstraint:
+            baseTableName: career_track_nodes
+            baseColumnNames: track_id
+            referencedTableName: career_tracks
+            referencedColumnNames: id
+            constraintName: fk_career_track_node_track
+
+        - addUniqueConstraint:
+            tableName: career_track_nodes
+            columnNames: track_id, position_id, grade_id
+            constraintName: uq_career_track_node
+
+        - sql:
+            dbms: postgresql
+            sql: |
+              ALTER TABLE career_track_nodes ADD CONSTRAINT chk_career_track_node_order CHECK (display_order >= 0);

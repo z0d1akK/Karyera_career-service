@@ -1,0 +1,58 @@
+databaseChangeLog:
+
+  - changeSet:
+      id: 010-create-activity-evidence
+      author: zodiakk
+
+      changes:
+        - createTable:
+            tableName: activity_evidence
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: activity_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+              - column:
+                  name: evidence_type
+                  type: VARCHAR(30)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: external_entity_id
+                  type: UUID
+              - column:
+                  name: external_url
+                  type: VARCHAR(2048)
+              - column:
+                  name: description
+                  type: TEXT
+              - column:
+                  name: verification_status
+                  type: VARCHAR(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: verified_by
+                  type: UUID
+              - column:
+                  name: verified_at
+                  type: TIMESTAMP WITH TIME ZONE
+              - column:
+                  name: created_at
+                  type: TIMESTAMP WITH TIME ZONE
+                  constraints:
+                    nullable: false
+
+        - addForeignKeyConstraint:
+            baseTableName: activity_evidence
+            baseColumnNames: activity_id
+            referencedTableName: development_activities
+            referencedColumnNames: id
+            constraintName: fk_activity_evidence_activity

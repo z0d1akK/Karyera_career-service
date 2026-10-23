@@ -1,0 +1,52 @@
+databaseChangeLog:
+
+  - include:
+      file: db/changelog/tables/001-create-career-tracks.yaml
+
+  - include:
+      file: db/changelog/tables/002-create-career-track-revisions.yaml
+
+  - include:
+      file: db/changelog/tables/003-create-career-track-nodes.yaml
+
+  - include:
+      file: db/changelog/tables/004-create-career-transitions.yaml
+
+  - include:
+      file: db/changelog/tables/005-create-position-requirements.yaml
+
+  - include:
+      file: db/changelog/tables/006-create-required-skills.yaml
+
+  - include:
+      file: db/changelog/tables/007-create-employee-career-goals.yaml
+
+  - include:
+      file: db/changelog/tables/008-create-development-plans.yaml
+
+  - include:
+      file: db/changelog/tables/009-create-development-activities.yaml
+
+  - include:
+      file: db/changelog/tables/010-create-activity-evidence.yaml
+
+  - include:
+      file: db/changelog/tables/011-create-plan-reviews.yaml
+
+  - include:
+      file: db/changelog/tables/012-create-talent-reserves.yaml
+
+  - include:
+      file: db/changelog/tables/013-create-reserve-candidates.yaml
+
+  - include:
+      file: db/changelog/tables/014-create-reserve-decisions.yaml
+
+  - include:
+      file: db/changelog/tables/015-create-outbox-events.yaml
+
+  - include:
+      file: db/changelog/tables/016-create-processed-events.yaml
+
+  - include:
+      file: db/changelog/tables/017-create-indexes.yaml
