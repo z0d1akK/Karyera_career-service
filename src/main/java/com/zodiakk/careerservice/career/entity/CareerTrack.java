@@ -3,10 +3,11 @@ package com.zodiakk.careerservice.career.entity;
 import com.zodiakk.careerservice.common.entity.VersionedCreatedByEntity;
 import com.zodiakk.careerservice.common.enums.CareerTrackStatus;
 import com.zodiakk.careerservice.common.enums.CareerTrackType;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

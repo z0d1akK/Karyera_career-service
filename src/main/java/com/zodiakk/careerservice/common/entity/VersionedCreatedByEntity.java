@@ -1,6 +1,7 @@
 package com.zodiakk.careerservice.common.entity;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.Version;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,6 +12,7 @@ import java.util.UUID;
 
 @Getter
 @Setter
+@MappedSuperclass
 @NoArgsConstructor
 @SuperBuilder
 public abstract class VersionedCreatedByEntity extends BaseEntity {
