@@ -1,0 +1,38 @@
+package com.zodiakk.careerservice.development.dto.request.action;
+
+import com.zodiakk.careerservice.common.enums.DevelopmentActivityType;
+import com.zodiakk.careerservice.common.validation.ValidationMessages;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.*;
+import lombok.*;
+
+import java.time.LocalDate;
+import java.util.UUID;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class DevelopmentPlanActivityItemDto {
+
+    @Schema(description = "Skill id")
+    private UUID skillId;
+
+    @Schema(description = "Title")
+    @NotBlank(message = ValidationMessages.TITLE_REQUIRED)
+    @Size(max = 200, message = ValidationMessages.TITLE_SIZE)
+    private String title;
+
+    @Schema(description = "Description")
+    @Size(max = 5000, message = ValidationMessages.DESCRIPTION_SIZE)
+    private String description;
+
+    @Schema(description = "Activity type")
+    @NotNull(message = ValidationMessages.ACTIVITY_TYPE_REQUIRED)
+    private DevelopmentActivityType activityType;
+
+    @Schema(description = "Due date")
+    private LocalDate dueDate;
+}
